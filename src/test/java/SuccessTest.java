@@ -8,22 +8,21 @@ public class SuccessTest {
     //проверка, что заказ добавлен
     // проверка , что пользватель и продукт в заказе корректный
     //удаление
-
-
     @Test
     public void checkCreateOrder() {
         //PRECONDITION
         var productName = "testProd1";
         var productPrice = 100;
 
-        var userName = "Vanya";
-        var userPhone = "+7123456767";
+        var userName = "Van";
+        var userPhone = "+71231231231";
 
         var pathCreateProduct = "/createGood?name=" + productName + "&price=" + productPrice;
         var responseCreateProduct = TestUtils.callPut(pathCreateProduct).assertThat().statusCode(200);
         var idProduct = Long.valueOf((Integer) responseCreateProduct.extract().body().path("id"));
 
         var pathCreateOrder = "/createOrder?userName=" + userName + "&userPhone=" + userPhone + "&productName=" + productName;
+
 
 
         //TEST
@@ -45,7 +44,9 @@ public class SuccessTest {
         assertThat(idProductInOrder).as("productId").isEqualTo(idProduct);
         assertThat(idUserInOrder).as("authorId").isEqualTo(idUser);
 
+
         //postcondition
+
         var pathDeleteOrder = "/deleteOrderById?id=" + idOrder;
         TestUtils.callDelete(pathDeleteOrder).statusCode(200);
 
